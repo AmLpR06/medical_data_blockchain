@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.hashers import make_password, check_password
 from web3 import Web3
 from doctor.models import users_class, Doctor, Patient, MedicalReportRequest, MedicalRecord
-from doctor.web3_file import add_user_to_blockchain, get_user
+# from doctor.web3_file import add_user_to_blockchain, get_user
 
 """
 -----------------------------------------------Authentication functions-------------------------------------------------
@@ -51,13 +51,13 @@ def sign_in(request):
                 if role == 'doctor':
                     request.session['user_id'] = user.id
                     return redirect('doctor_home')
-                else:
+                elif role == 'patient':
                     request.session['user_id'] = user.id
                     user_mail =  user.email
-                    user_datail = get_user(user_mail)
-                    if user_datail:
-                        return redirect('patient_home')
-                    else:
+                    # user_datail = get_user(user_mail)
+                    # if user_datail:
+                    return redirect('patient_home')
+                else:
                         return redirect('sign_in')
             else:
                 error_message = "Invalid password. Please try again."
@@ -93,39 +93,39 @@ def sign_up(request):
                 hashed_password = make_password(password)
 
                
-                tx_receipt = add_user_to_blockchain(username, hashed_password, email)
+                # tx_receipt = add_user_to_blockchain(username, hashed_password, email)
 
 
-                if tx_receipt:
+                # if tx_receipt:
                 
                     # If the transaction succeeds, create a new user instance and save it to the database
-                    user = users_class.objects.create(username=username, email=email, password=hashed_password,
+                user = users_class.objects.create(username=username, email=email, password=hashed_password,
                                                         role=role)
-                    print(tx_receipt, '*************************')
-                    if role == 'doctor':
-                        Doctor.objects.create(
-                            user=user,
-                            phone_number=None,
-                            medical_license_number=None,
-                            gender=None
-                        )
-                    else:
-                        Patient.objects.create(
-                            user=user,
-                            date_of_birth=None,
-                            address=None,
-                            gender=None,
-                            phone_number=None,
-                        )
-               
+                    # print(tx_receipt, '*************************')
+                if role == 'doctor':
+                    Doctor.objects.create(
+                        user=user,
+                        phone_number=None,
+                        medical_license_number=None,
+                        gender=None
+                    )
+                else:
+                    Patient.objects.create(
+                        user=user,
+                        date_of_birth=None,
+                        address=None,
+                        gender=None,
+                        phone_number=None,
+                    )
             
-                    # Store hashed user data on the blockchain
-                    
+        
+                # Store hashed user data on the blockchain
+                
 
-                    # Process the transaction receipt or return some response
-                    
-                        # Redirect to a success page or homepage
-                    return redirect('sign_in')
+                # Process the transaction receipt or return some response
+                
+                    # Redirect to a success page or homepage
+                return redirect('sign_in')
 
     # Pass the error message to the template
     return render(request, 'registration.html', {'error_message': error_message})
