@@ -1,0 +1,95 @@
+{% extends 'patient_base.html' %}
+
+{% block content %}
+
+<div class="details">
+
+    <div class="grid grid-cols-2 gap-6 mt-7">
+        <!-- First Column -->
+
+        <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+            <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+                <div class="max-w-md mx-auto">
+
+                    {% for i in patient %}
+                    <div class="divide-y divide-gray-200">
+                        <img alt="{{ i.medical_data.image }}" src="{{ i.medical_data.image.url }}">
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="relative px-4 h-auto py-10 bg-white shadow-lg sm:rounded-3xl  sm:p-20">
+                <div class="max-w-md mx-auto ">
+
+                        <div class="divide-y divide-gray-200 space-y-4">
+                            {% for i in patient %}
+                            <div class="mb-4">
+                                <h1 class="text-2xl font-semibold">Medical Records of {{ i.patient.user.username }}</h1>
+                            </div>
+                            <div class="flex mb-2">
+                                <h3 class="font-bold text-gray-600 text-sm pr-4">
+                                    Date Of Birth
+                                </h3>
+                                <h3 class="text-gray-600 text-sm">
+                                    {{ i.patient.date_of_birth }}
+                                </h3>
+                            </div>
+                            <div class="flex mb-2">
+                                <h3 class="font-bold text-gray-600 text-sm pr-4">
+                                    Blood Group
+                                </h3>
+                                <h3 class="text-gray-600 text-sm">
+                                    {{ i.medical_data.blood_group }}
+                                </h3>
+                            </div>
+                            <div class="flex mb-2">
+                                <h3 class="font-bold text-gray-600 text-sm pr-4">
+                                    Symptoms
+                                </h3>
+                                <h3 class="text-gray-600 text-sm">
+                                    {{ i.medical_data.symptoms }}
+                                </h3>
+                            </div>
+                            <div class="flex mb-2">
+                                <h3 class="font-bold text-gray-600 text-sm pr-4">
+                                    Doctor Note
+                                </h3>
+
+                                <h3>{{ i.medical_data.doctor_note }}</h3>
+
+                            </div>
+                            <div class="flex mb-2">
+                                <h3 class="font-bold text-gray-600 text-sm pr-4">
+                                    Prescription
+                                </h3>
+
+                                <h3>{{ i.medical_data.prescription }}</h3>
+
+                            </div>
+                            <div class="flex mb-2 h-auto ">
+                                <h3 class="font-bold text-gray-600 text-sm pr-4">
+                                    Diagnosis
+                                </h3>
+
+                                <h3 >{{ i.medical_data.diagnosis }}</h3>
+
+
+                            </div>
+
+                            {% endfor %}
+
+
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

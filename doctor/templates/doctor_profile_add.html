@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
+        </div>
+        <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+            <div class="max-w-md mx-auto">
+                <div>
+                    <h1 class="text-2xl font-semibold">Add Profile</h1>
+                </div>
+                <form method="post" action="doctor_add_profile">
+                    {% csrf_token %}
+                    <div class="divide-y divide-gray-200">
+                        <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                            <!-- Fields for Doctor model -->
+
+                            <div class="relative">
+                                <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                <input autocomplete="off" id="phone_number" name="phone_number" type="tel" required
+                                       class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"/>
+                            </div>
+
+                            <div class="relative">
+                                <label for="medical_license_number" class="block text-sm font-medium text-gray-700">Medical License Number</label>
+                                <input autocomplete="off" id="medical_license_number" name="medical_license_number" type="text"
+                                       class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"/>
+                            </div>
+
+                            <div class="relative">
+                                <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                                <select id="gender" name="gender" required
+                                        class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600">
+                                    <option value="" disabled selected>Select gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="relative">
+                                <button type="submit" class="bg-blue-500 text-white rounded-md px-2 py-1">Submit</button>
+                            </div>
+
+                            <div class="text-sm text-gray-600 mt-2">
+                                {% if error_message %}
+                                <p style="color: red;">{{ error_message }}</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!-- ================ Patients List ================= -->
+<div class="details">
+    <div class="recentOrders">
+        <div class="cardHeader">
+            <h2>Patients</h2>
+
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Dob</td>
+                <td>gender</td>
+                <td>Phone Number</td>
+                <td>Address</td>
+
+                <td>
+                </td>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for patient in patients %}
+
+            <tr>
+                <td>{{ patient.id }}</td>
+                <td>{{ patient.user.username }}</td>
+                <td>{{ patient.user.email }}</td>
+                <td>{{ patient.date_of_birth }}</td>
+                <td>{{ patient.gender }}</td>
+                <td>{{ patient.phone_number }}</td>
+                <td>{{ patient.address }}</td>
+                <td>
+                    <a href="{% url 'request_view_medical_record' patient.user.id %}" class="buttonView">
+                        View medical records
+                    </a>
+                </td>
+
+
+            </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

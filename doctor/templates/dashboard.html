@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!-- ======================= Cards ================== -->
+<div class="cardBox">
+    <div class="card">
+        <div>
+            <div class="numbers">{{ total_users_count }}</div>
+            <div class="cardName">Total Patients</div>
+        </div>
+
+        <div class="iconBx">
+            <ion-icon name="people-outline"></ion-icon>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <div class="numbers">{{ today_users_count }}</div>
+            <div class="cardName">Today Visit</div>
+        </div>
+
+        <div class="iconBx">
+            <ion-icon name="person-outline"></ion-icon>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <div class="numbers">{{ medical_report_request_accepted }}</div>
+            <div class="cardName">Patients Acceptance</div>
+        </div>
+
+        <div class="iconBx">
+            <ion-icon name="accessibility-outline"></ion-icon>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <div class="numbers"></div>
+            <div class="cardName">Coming Soon</div>
+        </div>
+
+        <div class="iconBx">
+            <ion-icon name="cash-outline"></ion-icon>
+        </div>
+    </div>
+</div>
+
+<!-- ================ Order Details List ================= -->
+<div class="details">
+    <div class="recentOrders">
+        <div class="cardHeader">
+            <h2>Patients Acceptance Status</h2>
+
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Phone Number</td>
+                <td>Status</td>
+                <td>
+                </td>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for patients in medical_report_request_patients %}
+
+            <tr>
+                <td>{{ patients.id }}</td>
+                <td>{{ patients.patient.user.username }}</td>
+                <td>{{ patients.patient.user.email }}</td>
+                <td>{{ patients.patient.phone_number }}</td>
+                <td>
+                    {% if patients.status == 'pending' %}
+
+                    <span class="status pending">{{ patients.status }}</span>
+                    {% elif patients.status == 'rejected' %}
+                    <span class="status return">{{ patients.status }}</span>
+                    {% else %}
+                    <span class="status delivered">{{ patients.status }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if patients.status == 'accepted' %}
+                    <a href="{% url 'view_accepted_medical_records' patients.id %}"  role="button" aria-pressed="true" class="buttonView">
+                        View
+                    </a>
+
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'patient_base.html' %}
+
+{% block content %}
+
+<!-- ================ Doctors detail List ================= -->
+<div class="details">
+    <div class="recentOrders">
+        <div class="cardHeader">
+            <h2>Doctors</h2>
+
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Email</td>
+
+                <td>gender</td>
+                <td>Phone Number</td>
+
+
+                <td>
+                </td>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for doctor in doctors %}
+
+            <tr>
+                <td>{{ doctor.id }}</td>
+                <td>{{ doctor.user.username }}</td>
+                <td>{{ doctor.user.email }}</td>
+
+                <td>{{ doctor.gender }}</td>
+                <td>{{ doctor.phone_number }}</td>
+
+            </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}
