@@ -70,7 +70,6 @@ def get_user(userEmail):
     tx_hash = user_contract.constructor().transact({'from': web3.eth.accounts[0]})
     tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
     print(tx_receipt)
-    
     # Create a contract instance using the deployed contract address
     greeter = web3.eth.contract(
         address=tx_receipt.contractAddress,

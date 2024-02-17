@@ -6,6 +6,7 @@ class users_class(models.Model):
     username = models.CharField(max_length=30, unique=True)
     password = models.CharField(max_length=128)
     role = models.CharField(max_length=28, null=True)
+    con_address=models.CharField(max_length=30, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):

@@ -3,16 +3,18 @@ from django.core.exceptions import ValidationError
 import re
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password, check_password
+from doctor import web3_file
+from doctor.web import deploy_contract
 from web3 import Web3
 from doctor.models import users_class, Doctor, Patient, MedicalReportRequest, MedicalRecord
-from doctor.web3_file import add_user_to_blockchain, get_user
+from doctor.web import add_user, getUs
 
 """
 -----------------------------------------------Authentication functions-------------------------------------------------
 """
 
 
-
+contract_address = deploy_contract()
 def validate_password(password):
     # Minimum 6 characters, maximum 15 characters
     if not 6 <= len(password) <= 15:
@@ -45,16 +47,19 @@ def sign_in(request):
             user = users_class.objects.get(email=email)
             query_password = user.password  # Retrieve hashed password from the database
             role = user.role
+            addr = user.con_address
 
             # Verify the hashed password against the provided password
             if check_password(password, query_password):
                 if role == 'doctor':
+                    user_datail = getUs(email,addr)
+                    print(user_datail,'========================')
                     request.session['user_id'] = user.id
                     return redirect('doctor_home')
                 else:
                     request.session['user_id'] = user.id
                     user_mail =  user.email
-                    user_datail = get_user(user_mail)
+                    user_datail = getUs(user_mail,addr)
                     if user_datail:
                         return redirect('patient_home')
                     else:
@@ -91,17 +96,12 @@ def sign_up(request):
 
             if not error_message:
                 hashed_password = make_password(password)
-
-               
-                tx_receipt = add_user_to_blockchain(username, hashed_password, email)
-
-
-                if tx_receipt:
-                
+                a = add_user(username,email,password)
+                if a:
                     # If the transaction succeeds, create a new user instance and save it to the database
-                    user = users_class.objects.create(username=username, email=email, password=hashed_password,
+                    user = users_class.objects.create(username=username,con_address=a , email=email, password=hashed_password,
                                                         role=role)
-                    print(tx_receipt, '*************************')
+                
                     if role == 'doctor':
                         Doctor.objects.create(
                             user=user,
@@ -117,14 +117,7 @@ def sign_up(request):
                             gender=None,
                             phone_number=None,
                         )
-               
             
-                    # Store hashed user data on the blockchain
-                    
-
-                    # Process the transaction receipt or return some response
-                    
-                        # Redirect to a success page or homepage
                     return redirect('sign_in')
 
     # Pass the error message to the template
