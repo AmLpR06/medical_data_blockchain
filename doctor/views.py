@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.hashers import make_password, check_password
 from web3 import Web3
 from doctor.models import users_class, Doctor, Patient, MedicalReportRequest, MedicalRecord
-# from doctor.web3_file import add_user_to_blockchain, get_user
+from doctor.web3_file import add_user_to_blockchain, get_user
 
 """
 -----------------------------------------------Authentication functions-------------------------------------------------
@@ -54,9 +54,9 @@ def sign_in(request):
                 elif role == 'patient':
                     request.session['user_id'] = user.id
                     user_mail =  user.email
-                    # user_datail = get_user(user_mail)
-                    # if user_datail:
-                    return redirect('patient_home')
+                    user_datail = get_user(user_mail)
+                    if user_datail:
+                        return redirect('patient_home')
                 else:
                         return redirect('sign_in')
             else:

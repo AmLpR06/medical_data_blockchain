@@ -43,7 +43,7 @@ bytecode = contract_interface["evm"]["bytecode"]["object"]
 
 # Instantiate the contract
 web3.eth.defaultAccount = web3.eth.accounts[0]
-address = web3.to_checksum_address('0x5EAD9734468bBF612045F7633092C6e5043e4e73')
+address = web3.to_checksum_address('0x198A1284493a03332B00B0C4C29CEeDb06b63561')
 contract = web3.eth.contract(address=address, abi=contract_abi)
 
 def add_user_to_blockchain(username, password, email):

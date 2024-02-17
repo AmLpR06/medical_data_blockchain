@@ -101,6 +101,3 @@ def get_user(userEmail,addr):
         print(f"Error while getting user details: {e}")
         return None
 
-a = get_user("john@example.com",add)
-
-print(a,'---------------------')
